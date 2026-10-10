@@ -1,16 +1,25 @@
-# React + Vite
+# OS Process Scheduler Simulation
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+I made this for my OS project.
 
-Currently, two official plugins are available:
+## Project Overview
+This is a high-performance, browser-based simulation of Operating System CPU scheduling algorithms. It allows users to input custom processes with dynamic Arrival Times and Burst Times to see exactly how the CPU handles them under different scheduling rules.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
+- **Algorithms Implemented:**
+  - **FCFS** (First-Come, First-Serve)
+  - **SJF** (Shortest Job First - Non-preemptive)
+  - **RR** (Round Robin - with adjustable Time Quantum)
+- **Live Visualizations:**
+  - **Interactive Gantt Chart:** A visually rich, horizontally scrolling timeline that tracks active execution blocks and CPU Idle states in real-time.
+  - **Metrics Engine:** Automatically calculates and breaks down Completion Time (CT), Turnaround Time (TAT), and Waiting Time (WT) alongside total averages.
+- **UI/UX:** Built with a strict "Minimalist Dark" aesthetic, ensuring blazing fast client-side performance without heavy animation libraries.
 
-## React Compiler
+## How to Run
+Simply double-click the `Launch_OS_Scheduler.bat` file in the project folder. It will automatically start the local server and open the simulation in your default web browser!
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+---
+**Made by:**
+- Sarthak Gupta (RA2511003020460)
+- Arush K (RA2511003020466)
+- Harshvardhan Khanolkar (RA2511003020465)
