@@ -30,3 +30,21 @@
     scrollbar-width: none;
   }
 }
+
+@layer utilities {
+  .sleek-scrollbar::-webkit-scrollbar {
+    height: 8px;
+  }
+  .sleek-scrollbar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 4px;
+    margin-bottom: 2px;
+  }
+  .sleek-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(245, 158, 11, 0.2);
+    border-radius: 4px;
+  }
+  .sleek-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(245, 158, 11, 0.4);
+  }
+}
