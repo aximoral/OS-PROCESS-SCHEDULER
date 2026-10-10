@@ -1,7 +1,8 @@
 export const calculateFCFS = (processes) => {
-  if (!processes || processes.length === 0) return { metrics: [], gantt: [] };
+  const validProcs = processes?.filter(p => p.burstTime > 0) || [];
+  if (validProcs.length === 0) return { metrics: [], gantt: [] };
 
-  const sorted = [...processes].sort((a, b) => a.arrivalTime - b.arrivalTime);
+  const sorted = [...validProcs].sort((a, b) => a.arrivalTime - b.arrivalTime);
   const gantt = [];
   const metrics = [];
   let currentTime = 0;
@@ -30,20 +31,22 @@ export const calculateFCFS = (processes) => {
 };
 
 export const calculateSJF = (processes) => {
-  if (!processes || processes.length === 0) return { metrics: [], gantt: [] };
+  const validProcs = processes?.filter(p => p.burstTime > 0) || [];
+  if (validProcs.length === 0) return { metrics: [], gantt: [] };
 
-  const remaining = [...processes].map(p => ({ ...p, remainingTime: p.burstTime }));
+  const remaining = [...validProcs].map(p => ({ ...p, remainingTime: p.burstTime }));
   const gantt = [];
   const metrics = [];
   let currentTime = 0;
   let completedCount = 0;
-  const n = processes.length;
+  const n = validProcs.length;
 
   while (completedCount < n) {
     const available = remaining.filter(p => p.arrivalTime <= currentTime && p.remainingTime > 0);
     
     if (available.length === 0) {
       const nextArrival = Math.min(...remaining.filter(p => p.remainingTime > 0).map(p => p.arrivalTime));
+      if (!isFinite(nextArrival)) break; // Failsafe
       gantt.push({ processId: "IDLE", startTime: currentTime, endTime: nextArrival });
       currentTime = nextArrival;
       continue;
@@ -65,7 +68,7 @@ export const calculateSJF = (processes) => {
     p.remainingTime = 0;
     
     metrics.push({
-      ...processes.find(orig => orig.id === p.id),
+      ...validProcs.find(orig => orig.id === p.id),
       completionTime: endTime,
       turnaroundTime: endTime - p.arrivalTime,
       waitingTime: (endTime - p.arrivalTime) - p.burstTime,
@@ -79,11 +82,12 @@ export const calculateSJF = (processes) => {
 };
 
 export const calculateRR = (processes, quantum) => {
-  if (!processes || processes.length === 0) return { metrics: [], gantt: [] };
-  // Ensure quantum is a valid number, default to 1 if invalid to prevent infinite loops
+  const validProcs = processes?.filter(p => p.burstTime > 0) || [];
+  if (validProcs.length === 0) return { metrics: [], gantt: [] };
+
   const q = (typeof quantum === 'number' && quantum > 0) ? quantum : 1;
 
-  const procs = [...processes].map(p => ({ ...p, remainingTime: p.burstTime })).sort((a, b) => a.arrivalTime - b.arrivalTime);
+  const procs = [...validProcs].map(p => ({ ...p, remainingTime: p.burstTime })).sort((a, b) => a.arrivalTime - b.arrivalTime);
   const gantt = [];
   const metrics = [];
   
@@ -105,13 +109,19 @@ export const calculateRR = (processes, quantum) => {
 
   addNewArrivals(currentTime);
 
-  while (completedCount < n) {
+  // Failsafe iteration limit to strictly prevent infinite loops on the client
+  let maxIterations = 10000;
+
+  while (completedCount < n && maxIterations-- > 0) {
     if (readyQueue.length === 0) {
       const nextProc = procs.find(p => !inQueueOrCompleted.has(p.id));
       if (nextProc) {
         gantt.push({ processId: "IDLE", startTime: currentTime, endTime: nextProc.arrivalTime });
         currentTime = nextProc.arrivalTime;
         addNewArrivals(currentTime);
+      } else {
+        // Failsafe: if queue is empty and no new processes, just exit
+        break; 
       }
       continue;
     }
@@ -125,7 +135,6 @@ export const calculateRR = (processes, quantum) => {
     currentTime = endTime;
     currentProcess.remainingTime -= timeExecuted;
 
-    // CRITICAL RR RULE: Push newly arrived processes to queue BEFORE pushing current process back
     addNewArrivals(currentTime);
 
     if (currentProcess.remainingTime > 0) {
@@ -133,7 +142,7 @@ export const calculateRR = (processes, quantum) => {
     } else {
       completedCount++;
       metrics.push({
-        ...processes.find(orig => orig.id === currentProcess.id),
+        ...validProcs.find(orig => orig.id === currentProcess.id),
         completionTime: currentTime,
         turnaroundTime: currentTime - currentProcess.arrivalTime,
         waitingTime: (currentTime - currentProcess.arrivalTime) - currentProcess.burstTime,
