@@ -18,8 +18,3 @@ This is a high-performance, browser-based simulation of Operating System CPU sch
 ## How to Run
 Simply double-click the `Launch_OS_Scheduler.bat` file in the project folder. It will automatically start the local server and open the simulation in your default web browser!
 
----
-**Made by:**
-- Sarthak Gupta (RA2511003020460)
-- Arush K (RA2511003020466)
-- Harshvardhan Khanolkar (RA2511003020465)
