@@ -27,7 +27,7 @@ export const AlgorithmSelector = ({ algorithm, setAlgorithm, quantum, setQuantum
             type="number" 
             min="1"
             value={quantum}
-            onChange={(e) => setQuantum(parseInt(e.target.value) || 1)}
+            onChange={(e) => setQuantum(e.target.value === '' ? '' : parseInt(e.target.value, 10))}
             className="w-24 text-center text-lg"
           />
         </div>

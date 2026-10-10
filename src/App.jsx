@@ -34,11 +34,16 @@ function App() {
   };
 
   const { metrics, gantt } = useMemo(() => {
-    const procs = JSON.parse(JSON.stringify(processes));
+    const procs = processes.map(p => ({
+      ...p,
+      arrivalTime: p.arrivalTime === '' || isNaN(p.arrivalTime) ? 0 : p.arrivalTime,
+      burstTime: p.burstTime === '' || isNaN(p.burstTime) ? 0 : p.burstTime
+    }));
+    
     switch (algorithm) {
       case 'FCFS': return calculateFCFS(procs);
       case 'SJF': return calculateSJF(procs);
-      case 'RR': return calculateRR(procs, quantum);
+      case 'RR': return calculateRR(procs, quantum === '' || isNaN(quantum) ? 1 : quantum);
       default: return { metrics: [], gantt: [] };
     }
   }, [processes, algorithm, quantum]);

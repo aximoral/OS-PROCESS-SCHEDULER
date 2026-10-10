@@ -13,7 +13,7 @@ export const ProcessInputRow = ({ process, onChange, onRemove }) => {
           type="number" 
           min="0"
           value={process.arrivalTime} 
-          onChange={(e) => onChange(process.id, 'arrivalTime', parseInt(e.target.value) || 0)}
+          onChange={(e) => onChange(process.id, 'arrivalTime', e.target.value === '' ? '' : parseInt(e.target.value, 10))}
           placeholder="Arrival Time"
         />
       </div>
@@ -22,7 +22,7 @@ export const ProcessInputRow = ({ process, onChange, onRemove }) => {
           type="number" 
           min="1"
           value={process.burstTime} 
-          onChange={(e) => onChange(process.id, 'burstTime', parseInt(e.target.value) || 0)}
+          onChange={(e) => onChange(process.id, 'burstTime', e.target.value === '' ? '' : parseInt(e.target.value, 10))}
           placeholder="Burst Time"
         />
       </div>
