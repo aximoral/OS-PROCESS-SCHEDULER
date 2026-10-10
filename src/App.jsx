@@ -54,13 +54,24 @@ function App() {
       <div className="min-h-screen max-w-5xl mx-auto py-16 px-6 lg:px-8 space-y-12">
         
         {/* Header */}
-        <header className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-amberAccent/10 flex items-center justify-center border border-amberAccent/20">
-            <Cpu className="text-amberAccent" size={24} />
+        <header className="flex flex-col md:flex-row md:items-center justify-between gap-8">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-xl bg-amberAccent/10 flex items-center justify-center border border-amberAccent/20">
+              <Cpu className="text-amberAccent" size={24} />
+            </div>
+            <div>
+              <h1 className="text-3xl font-display font-bold text-slate-100 tracking-tight">OS Scheduler</h1>
+              <p className="text-slate-400 text-sm mt-1">High-performance process simulation</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-3xl font-display font-bold text-slate-100 tracking-tight">OS Scheduler</h1>
-            <p className="text-slate-400 text-sm mt-1">High-performance process simulation</p>
+          
+          <div className="md:text-right bg-slateBase/30 p-4 rounded-xl border border-white/5">
+            <h4 className="text-[10px] uppercase tracking-widest text-slate-500 font-bold mb-2">Made by</h4>
+            <ul className="space-y-1 text-xs font-mono">
+              <li className="text-slate-300">Sarthak Gupta <span className="text-amberAccent/50 ml-2">RA2511003020460</span></li>
+              <li className="text-slate-300">Arush K <span className="text-amberAccent/50 ml-2">RA2511003020466</span></li>
+              <li className="text-slate-300">Harshvardhan Khanolkar <span className="text-amberAccent/50 ml-2">RA2511003020465</span></li>
+            </ul>
           </div>
         </header>
 
